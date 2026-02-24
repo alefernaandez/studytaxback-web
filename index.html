@@ -1739,7 +1739,7 @@
           </div>
 
           <div class="w-card reveal" style="padding:0; overflow:hidden; background:none;">
-            <img src="tax_digital.png" alt="Tax digital"
+            <img src="process.png" alt="Proceso Tax Return Australia"
               style="width:100%; height:100%; object-fit:cover; display:block; border-radius: var(--radius);">
           </div>
 
@@ -2397,8 +2397,14 @@
       }
 
       const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-      }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('on');
+            // Unobserve after animating to save performance
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
 
       document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
