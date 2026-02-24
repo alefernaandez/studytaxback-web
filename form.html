@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario - StudyTaxBack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --green: #9CFC74;
+            --black: #000000;
+            --white: #ffffff;
+            --off-white: #F8F9F8;
+            --gray: #6B6D6B;
+            --gray-light: #E0E2E0;
+            --radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--black);
+            line-height: 1.5;
+            padding: 40px 20px;
+        }
+
+        .form-nav-header {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        /* ── MULTI-STEP FORM ── */
+        .form-container {
+            background: var(--white);
+            border-radius: 32px;
+            border: 1.5px solid var(--gray-light);
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-header {
+            padding: 40px 40px 20px;
+            background: var(--off-white);
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .progress-wrap {
+            margin-top: 20px;
+        }
+
+        .progress-bar-bg {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--green);
+            width: 10%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-counter {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .form-body {
+            padding: 50px 40px;
+            min-height: 450px;
+            position: relative;
+        }
+
+        .form-step {
+            display: none;
+            animation: stepIn 0.5s ease both;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes stepIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .step-sub {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Form Elements */
+        .field-group {
+            margin-bottom: 24px;
+        }
+
+        .field-label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1.5px solid var(--gray-light);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+
+        .input-text:focus {
+            outline: none;
+            border-color: var(--black);
+            background: var(--off-white);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Radio/Choice Group */
+        .choice-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .choice-card {
+            position: relative;
+            border: 1.5px solid var(--gray-light);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            background: var(--white);
+        }
+
+        .choice-card input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .choice-card:hover {
+            background: var(--off-white);
+        }
+
+        .choice-card.selected {
+            border-color: var(--black);
+            background: var(--black);
+            color: var(--green);
+        }
+
+        .choice-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .choice-card.selected .choice-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        /* File Upload */
+        .upload-box {
+            border: 2px dashed var(--gray-light);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--off-white);
+        }
+
+        .upload-box:hover {
+            border-color: var(--black);
+            background: var(--white);
+        }
+
+        .upload-box svg {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* Form Footer */
+        .form-nav {
+            padding: 30px 40px 40px;
+            display: flex;
+            justify-content: space-between;
+            background: var(--white);
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .form-btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-prev {
+            background: var(--off-white);
+            color: var(--black);
+        }
+
+        .btn-next {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-next.finish {
+            background: var(--green);
+            color: var(--black);
+        }
+
+        .btn-prev:hover {
+            background: var(--gray-light);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .welcome-card {
+            background: var(--black);
+            color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-card h3 {
+            font-family: 'Fraunces', serif;
+            color: var(--green);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+
+        .calc-preview {
+            background: var(--off-white);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1.5px solid var(--gray-light);
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .calc-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--black);
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        .auth-list {
+            margin-top: 20px;
+        }
+
+        .auth-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .auth-item svg {
+            width: 20px;
+            height: 20px;
+            color: var(--green);
+            flex-shrink: 0;
+        }
+
+        .input-text.error {
+            border-color: #ff4d4d;
+            background: #fffafa;
+        }
+
+        @media(max-width: 600px) {
+            .form-body {
+                padding: 30px 20px;
+            }
+
+            .grid-2,
+            .choice-group {
+                grid-template-columns: 1fr;
+            }
+
+            .step-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-nav-header">
+        <a href="index.html" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Volver a la web
+        </a>
+        <img src="https://studytaxback.com/wp-content/uploads/2021/05/logo-studytaxback.png" alt="StudyTaxBack"
+            style="height: 30px; filter: grayscale(1) brightness(0);">
+    </div>
+
+    <div id="form" class="form-container">
+        <!-- Header -->
+        <div class="form-header">
+            <div class="step-counter">Paso <span id="currentStepNum">1</span> de 10</div>
+            <div class="progress-wrap">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-body">
+            <form id="taxForm">
+                <!-- STEP 1: WELCOME -->
+                <div class="form-step active" data-step="1">
+                    <div class="welcome-card">
+                        <h3>¡Bienvenido a StudyTaxBack!</h3>
+                        <p>Esto toma unos 3 minutos. Solo responde lo que sea relevante para ti. <br><br>Si tienes
+                            dudas, tienes nuestro WhatsApp directo a un click.</p>
+                    </div>
+                    <h2 class="step-title">¿Empezamos?</h2>
+                    <p class="step-sub">Vamos a recuperar tu dinero de la forma más fácil.</p>
+                </div>
+
+                <!-- STEP 2: CONTACT -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">Cuéntanos sobre ti</h2>
+                    <p class="step-sub">Tus datos básicos para empezar el expediente.</p>
+                    <div class="field-group">
+                        <label class="field-label">Nombre completo</label>
+                        <input type="text" name="name" class="input-text" placeholder="Ej: Juan Pérez" required>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <label class="field-label">Fecha de nacimiento</label>
+                            <input type="date" name="dob" class="input-text" required>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">WhatsApp</label>
+                            <input type="tel" name="phone" class="input-text" placeholder="+61..." required>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Email</label>
+                        <input type="email" name="email" class="input-text" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Dirección actual (País / Ciudad)</label>
+                        <input type="text" name="address" class="input-text" placeholder="Ej: Sydney, Australia"
+                            required>
+                    </div>
+                </div>
+
+                <!-- STEP 3: RELATIONSHIP -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">Relación</h2>
+                    <p class="step-sub">Esto puede afectar a tus beneficios fiscales.</p>
+                    <div class="field-group">
+                        <label class="field-label">¿Estás en pareja?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_partner" value="yes"
+                                    onchange="toggleSub(this, 'partner_info')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card selected" onclick="selectChoice(this)">
+                                <input type="radio" name="has_partner" value="no" checked
+                                    onchange="toggleSub(this, 'partner_info')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+                    <div id="partner_info" style="display:none;">
+                        <div class="field-group">
+                            <label class="field-label">¿Vives con tu pareja?</label>
+                            <div class="choice-group">
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="lives_with_partner" value="yes">
+                                    <div class="choice-circle"></div> Sí
+                                </label>
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="lives_with_partner" value="no">
+                                    <div class="choice-circle"></div> No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: TAX INFO -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title">Tax Info</h2>
+                    <p class="step-sub">Datos oficiales para la ATO.</p>
+                    <div class="field-group">
+                        <label class="field-label">Año fiscal a declarar</label>
+                        <select name="fiscal_year" class="input-text">
+                            <option value="2025-26">2025 - 2026</option>
+                            <option value="2024-25" selected>2024 - 2025</option>
+                            <option value="others">Otros años</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">¿Quieres declarar otro año también?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="extra_year" value="yes">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="extra_year" value="no">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <label class="field-label">TFN (Obligatorio)</label>
+                            <input type="text" name="tfn" class="input-text" placeholder="XXX XXX XXX" required>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">ABN (Opcional)</label>
+                            <input type="text" name="abn" class="input-text" placeholder="Si tienes">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 5: RESIDENCY -->
+                <div class="form-step" data-step="5">
+                    <h2 class="step-title">Residencia</h2>
+                    <p class="step-sub">Crucial para determinar tu tasa de impuestos.</p>
+                    <div class="field-group">
+                        <label class="field-label">Fecha llegada por primera vez a AU</label>
+                        <input type="date" name="arrival_date" class="input-text" required>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">¿Ya te fuiste o vas a irte pronto?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="is_leaving" value="yes">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="is_leaving" value="no">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Otras condiciones</label>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <label class="choice-card" style="justify-content:flex-start;">
+                                <input type="checkbox" name="is_citizen"> ¿Ciudadano / PR de Australia?
+                            </label>
+                            <label class="choice-card" style="justify-content:flex-start;">
+                                <input type="checkbox" name="is_whv"> ¿Tienes Working Holiday Visa?
+                            </label>
+                            <label class="choice-card" style="justify-content:flex-start;">
+                                <input type="checkbox" name="applied_pr"> ¿Has solicitado la PR?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 6: BANK -->
+                <div class="form-step" data-step="6">
+                    <h2 class="step-title">Datos Bancarios</h2>
+                    <p class="step-sub">Donde quieres recibir el dinero (si es cuenta AU).</p>
+                    <div class="field-group">
+                        <label class="field-label">¿Tienes cuenta AU activa para el refund?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_au_bank" value="yes"
+                                    onchange="toggleSub(this, 'bank_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_au_bank" value="no"
+                                    onchange="toggleSub(this, 'bank_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+                    <div id="bank_details" style="display:none;">
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label class="field-label">BSB</label>
+                                <input type="text" name="bsb" class="input-text" placeholder="000-000">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Account Number</label>
+                                <input type="text" name="acc_num" class="input-text" placeholder="12345678">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 7: INCOME -->
+                <div class="form-step" data-step="7">
+                    <h2 class="step-title">Tus Ingresos</h2>
+                    <p class="step-sub">Cuéntanos sobre tus trabajos este año.</p>
+                    <div class="field-group" style="padding:20px; background:var(--off-white); border-radius:12px;">
+                        <h4 style="margin-bottom:15px;">Trabajo como Empleado (TFN)</h4>
+                        <div class="field-group">
+                            <label class="field-label">Puesto actual / profesión</label>
+                            <input type="text" name="job_title" class="input-text"
+                                placeholder="Ej: Hospitality / Cleaning">
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Empleador (Nombre / ABN / Gross Payment aprox)</label>
+                            <textarea name="tfn_employers" class="input-text" style="height:80px;"
+                                placeholder="Ej: Cafe XYZ - ABN... - $5,000"></textarea>
+                        </div>
+                    </div>
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-top:20px;">
+                        <h4 style="margin-bottom:15px;">Trabajo por cuenta propia (ABN)</h4>
+                        <div class="field-group">
+                            <label class="field-label">¿Has tenido ingresos con ABN?</label>
+                            <div class="choice-group">
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="has_abn_income" value="yes"
+                                        onchange="toggleSub(this, 'abn_details')">
+                                    <div class="choice-circle"></div> Sí
+                                </label>
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="has_abn_income" value="no"
+                                        onchange="toggleSub(this, 'abn_details')">
+                                    <div class="choice-circle"></div> No
+                                </label>
+                            </div>
+                        </div>
+                        <div id="abn_details" style="display:none;">
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">Gross Income ABN</label>
+                                    <input type="number" name="abn_gross" class="input-text" placeholder="$">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Gastos principales</label>
+                                    <input type="text" name="abn_expenses" class="input-text"
+                                        placeholder="Ej: Gasolina, herramientas">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 8: DEDUCTIONS -->
+                <div class="form-step" data-step="8">
+                    <h2 class="step-title">Deducciones y Archivos</h2>
+                    <p class="step-sub">Sube tus documentos para maximizar tu devolución.</p>
+                    <div class="field-group">
+                        <label class="field-label">Deducciones rápidas (gastos de trabajo)</label>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <input type="number" name="ded_cars" class="input-text" placeholder="Vehículo $">
+                            <input type="number" name="ded_clothes" class="input-text" placeholder="Ropa/Unif $">
+                            <input type="number" name="ded_ed" class="input-text" placeholder="Educación $">
+                            <input type="number" name="ded_other" class="input-text" placeholder="Otros (móvil/net) $">
+                        </div>
+                    </div>
+                    <div class="field-group" style="margin-top:30px;">
+                        <label class="field-label">Upload Archivos (Pasaporte, Visa, Payslips...)</label>
+                        <div class="upload-box" onclick="document.getElementById('fileUpload').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
+                            <input type="file" id="fileUpload" multiple style="display:none;">
+                        </div>
+                        <div id="fileList" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
+                    </div>
+                </div>
+
+                <!-- STEP 9: PAYMENT -->
+                <div class="form-step" data-step="9">
+                    <h2 class="step-title">Método de Pago</h2>
+                    <p class="step-sub">Elige cómo quieres pagar el servicio.</p>
+                    <div class="field-group">
+                        <div style="display:flex; flex-direction:column; gap:16px;">
+                            <label class="choice-card" style="padding:24px; min-height:80px;"
+                                onclick="selectChoice(this)">
+                                <input type="radio" name="payment_method" value="upfront" checked>
+                                <div class="choice-circle"></div>
+                                <div>
+                                    <div style="font-weight:700;">Pago por adelantado (Upfront)</div>
+                                    <div style="font-size:0.85rem; opacity:0.6;">Stripe / PayPal / Transferencia</div>
+                                </div>
+                            </label>
+                            <label class="choice-card" style="padding:24px; min-height:80px;"
+                                onclick="selectChoice(this)">
+                                <input type="radio" name="payment_method" value="refund">
+                                <div class="choice-circle"></div>
+                                <div>
+                                    <div style="font-weight:700;">Deducir del refund (+ $12 Fee)</div>
+                                    <div style="font-size:0.85rem; opacity:0.6;">No pagas nada hoy. Se descuenta al
+                                        recibir tu dinero.</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="calc-preview">
+                        <div
+                            style="font-weight:700; margin-bottom:15px; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">
+                            Resumen de precio</div>
+                        <div class="calc-row"><span>Gestión Tax Return</span> <span id="calc_base">$69</span></div>
+                        <div class="calc-row" id="calc_extra_row" style="display:none;"><span>Fee por pago
+                                diferido</span> <span>$12</span></div>
+                        <div class="calc-total">Total estimado: <span id="calc_total">$69 AUD</span></div>
+                    </div>
+                </div>
+
+                <!-- STEP 10: AUTHORIZATION -->
+                <div class="form-step" data-step="10">
+                    <h2 class="step-title">Autorización Final</h2>
+                    <p class="step-sub">Firma digital para que podamos actuar en tu nombre.</p>
+                    <div class="field-group"
+                        style="padding:30px; border:1px solid var(--gray-light); border-radius:16px;">
+                        <div class="auth-list">
+                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg> Autorizo a StudyTaxBack a preparar mi tax return.</div>
+                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg> Autorizo a gestionar mi super refund.</div>
+                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg> Autorizo el acceso a mi portal de ATO.</div>
+                        </div>
+                        <div class="field-group" style="margin-top:30px;">
+                            <label class="field-label">Nombre completo como firma</label>
+                            <input type="text" name="signature" class="input-text"
+                                placeholder="Escribe tu nombre completo" required>
+                        </div>
+                    </div>
+                    <p style="font-size:0.8rem; color:var(--gray); margin-top:20px; text-align:center;">Declaro que toda
+                        la información proporcionada es verdadera.</p>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-nav">
+            <button type="button" class="form-btn btn-prev" id="prevBtn" style="visibility:hidden;"
+                onclick="changeStep(-1)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                </svg> Anterior
+            </button>
+            <button type="button" class="form-btn btn-next" id="nextBtn" onclick="changeStep(1)">
+                <span id="nextBtnText">Siguiente</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 10;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentStepNum').innerText = currentStep;
+            document.getElementById('prevBtn').style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+            const nextBtn = document.getElementById('nextBtn');
+            const nextBtnText = document.getElementById('nextBtnText');
+            if (currentStep === totalSteps) { nextBtn.classList.add('finish'); nextBtnText.innerText = '¡Enviar!'; }
+            else { nextBtn.classList.remove('finish'); nextBtnText.innerText = 'Siguiente'; }
+        }
+
+        function changeStep(n) {
+            if (n === 1 && !validateStep(currentStep)) return;
+            const steps = document.querySelectorAll('.form-step');
+            steps[currentStep - 1].classList.remove('active');
+            currentStep += n;
+            if (currentStep > totalSteps) { handleSubmit(); return; }
+            steps[currentStep - 1].classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateProgress();
+        }
+
+        function validateStep(step) {
+            const stepEl = document.querySelector(`.form-step[data-step="${step}"]`);
+            const inputs = stepEl.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            inputs.forEach(input => {
+                if (!input.value) { input.classList.add('error'); valid = false; }
+                else { input.classList.remove('error'); }
+            });
+            return valid;
+        }
+
+        function selectChoice(el) {
+            const name = el.querySelector('input').name;
+            const group = document.querySelectorAll(`input[name="${name}"]`);
+            group.forEach(input => input.closest('.choice-card').classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input').checked = true;
+            if (name === 'payment_method') {
+                const isRefund = el.querySelector('input').value === 'refund';
+                document.getElementById('calc_extra_row').style.display = isRefund ? 'flex' : 'none';
+                document.getElementById('calc_total').innerText = isRefund ? '$81 AUD' : '$69 AUD';
+            }
+        }
+
+        function toggleSub(el, subId) {
+            const sub = document.getElementById(subId);
+            if (el.value === 'yes') {
+                sub.style.display = 'block';
+                sub.querySelectorAll('input').forEach(i => i.required = true);
+            } else {
+                sub.style.display = 'none';
+                sub.querySelectorAll('input').forEach(i => { i.required = false; i.value = ''; });
+            }
+        }
+
+        document.getElementById('fileUpload')?.addEventListener('change', function (e) {
+            const list = document.getElementById('fileList');
+            const files = Array.from(e.target.files);
+            list.innerHTML = files.map(f => `<div>• ${f.name}</div>`).join('');
+        });
+
+        async function handleSubmit() {
+            const form = document.getElementById('form');
+            const taxForm = document.getElementById('taxForm');
+            const formData = new FormData(taxForm);
+
+            // Change UI to loading state
+            form.innerHTML = `
+                <div style="padding:100px 40px; text-align:center;">
+                    <div class="loader" style="width:40px; height:40px; border:4px solid var(--gray-light); border-top-color:var(--black); border-radius:50%; animation: spin 0.8s linear infinite; margin:0 auto 20px;"></div>
+                    <p>Enviando tu solicitud...</p>
+                </div>
+                <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+            `;
+
+            try {
+                const response = await fetch('https://formspree.io/alejandra.tutaxreturn@gmail.com', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    form.innerHTML = `
+                        <div style="padding:100px 40px; text-align:center;">
+                            <div style="width:80px; height:80px; background:var(--green); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 30px;">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <h2 class="step-title">¡Enviado con éxito!</h2>
+                            <p class="step-sub">Gracias por confiar en StudyTaxBack. Hemos recibido tu información (se ha enviado a alejandra.tutaxreturn@gmail.com) y un Tax Agent se pondrá en contacto contigo vía WhatsApp en menos de 24 horas.</p>
+                            <a href="index.html" class="form-btn btn-next" style="margin: 20px auto; text-decoration: none; width: fit-content;">Volver al inicio</a>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Error al enviar');
+                }
+            } catch (error) {
+                form.innerHTML = `
+                    <div style="padding:100px 40px; text-align:center;">
+                        <h2 class="step-title">Ups, algo salió mal</h2>
+                        <p class="step-sub">No hemos podido enviar el formulario. Por favor, inténtalo de nuevo o contáctanos por WhatsApp.</p>
+                        <button onclick="location.reload()" class="form-btn btn-next" style="margin: 20px auto;">Reintentar</button>
+                    </div>
+                `;
+            }
+        }
+
+        updateProgress();
+    </script>
+</body>
+
+</html>
