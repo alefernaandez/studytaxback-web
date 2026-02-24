@@ -6,7 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tax Return Australia para estudiantes | StudyTaxBack</title>
   <meta name="description"
-    content="Recupera tu dinero de impuestos en Australia. Estudiantes hispanos. Más rápido, más barato, 100% digital.">
+    content="Recupera tu dinero de impuestos y superannuation en Australia. Especialistas en estudiantes hispanos. Proceso 100% digital, rápido y al mejor precio.">
+  <meta name="keywords"
+    content="tax return australia, superannuation australia, estudiantes australia, impuestos australia, recuperar impuestos australia">
+
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://studytaxback-web.vercel.app/">
+  <meta property="og:title" content="StudyTaxBack | Tax Return Australia para Estudiantes">
+  <meta property="og:description" content="Recupera tu dinero de impuestos en Australia de forma fácil y 100% digital.">
+  <meta property="og:image" content="cta-success.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="StudyTaxBack | Tax Return Australia">
+  <meta property="twitter:description" content="Especialistas en tax return para estudiantes hispanos en Australia.">
+  <meta property="twitter:image" content="cta-success.png">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
@@ -701,13 +717,14 @@
       }
 
       .hero-left {
+        order: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
       }
 
       .hero-right {
-        order: -1;
+        order: 2;
         margin-bottom: 40px;
       }
 
@@ -1410,6 +1427,46 @@
       border-top: 1px solid var(--gray-light);
     }
 
+    /* ── CTA FINAL ── */
+    .cta-content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      align-items: center;
+      text-align: left;
+    }
+
+    .cta-image-side {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 4px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-image-side img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media(max-width: 960px) {
+      .cta-content-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .cta-text-side {
+        order: 1;
+      }
+
+      .cta-image-side {
+        order: 2;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
     /* ── WA FLOAT ── */
     .wa {
       position: fixed;
@@ -1441,13 +1498,13 @@
     /* ── REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .reveal.on {
       opacity: 1;
-      transform: none;
+      transform: translateY(0) scale(1);
     }
 
     .auth-item svg {
@@ -1467,7 +1524,24 @@
 
       .steps-line-bg,
       .steps-line-fill {
-        display: none;
+        display: block;
+        left: 50%;
+        margin-left: -1.5px;
+        top: 20px;
+        bottom: 20px;
+        width: 3px;
+        height: auto;
+        right: auto;
+        transform-origin: top;
+        z-index: 0;
+      }
+
+      .steps-line-fill {
+        transform: scaleY(0);
+      }
+
+      .why-section {
+        display: none !important;
       }
 
       .why-grid {
@@ -1518,8 +1592,15 @@
         padding: 60px 5%;
       }
 
-      .why-grid {
-        grid-template-columns: 1fr;
+      .scard {
+        background: var(--black);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        z-index: 2;
+      }
+
+      .steps-grid-wrap {
+        z-index: 1;
       }
 
       .w-card.big {
@@ -1535,7 +1616,7 @@
 
 <body>
 
-  <a href="https://wa.me/61XXXXXXXXX" class="wa" target="_blank">
+  <a href="https://wa.me/34614426935" class="wa" target="_blank">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path fill="white"
         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -1726,7 +1807,7 @@
         <h2 class="title reveal">Más rápido.<br>Más barato.<br>Más digital.</h2>
 
         <div class="why-grid" style="margin-top:48px">
-          <div class="w-card black-bg reveal">
+          <div class="w-card black-bg reveal" style="transition-delay: 0.2s;">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <line x1="12" y1="1" x2="12" y2="23" />
@@ -1738,12 +1819,12 @@
             <p>Desde 69€ todo incluido, sin letra pequeña.</p>
           </div>
 
-          <div class="w-card reveal" style="padding:0; overflow:hidden; background:none;">
-            <img src="process.png" alt="Proceso Tax Return Australia"
+          <div class="w-card reveal" style="padding:0; overflow:hidden; background:none; transition-delay: 0.8s;">
+            <img src="process.png" alt="Pasaporte y documentos para el Tax Return en Australia"
               style="width:100%; height:100%; object-fit:cover; display:block; border-radius: var(--radius);">
           </div>
 
-          <div class="w-card green-bg reveal" style="transition-delay:.1s">
+          <div class="w-card green-bg reveal" style="transition-delay: 0s;">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10" />
@@ -1754,7 +1835,7 @@
             <p>Garantizada.</p>
           </div>
 
-          <div class="w-card light reveal" style="transition-delay:.2s">
+          <div class="w-card light reveal" style="transition-delay: 1s;">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
@@ -1764,7 +1845,7 @@
             <p>Por WhatsApp.</p>
           </div>
 
-          <div class="w-card light reveal" style="transition-delay:.3s">
+          <div class="w-card light reveal" style="transition-delay: 0.4s;">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -1775,7 +1856,7 @@
             <p>Sin papeles.</p>
           </div>
 
-          <div class="w-card green-bg reveal" style="transition-delay:.4s">
+          <div class="w-card green-bg reveal" style="transition-delay: 0.6s;">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <polyline points="20 6 9 17 4 12" />
@@ -2281,7 +2362,7 @@
             <h2 class="title reveal">Preguntas<br>frecuentes</h2>
             <p style="color:var(--gray);font-size:.9rem;line-height:1.7;margin-top:14px;" class="reveal">¿Algo más que
               quieras saber? Escríbenos por WhatsApp y te respondemos en menos de 24 horas.</p>
-            <a href="https://wa.me/61XXXXXXXXX" class="btn-main"
+            <a href="https://wa.me/34614426935" class="btn-main"
               style="margin-top:28px;display:inline-flex;font-size:.88rem;padding:13px 26px;">Pregunta por WhatsApp</a>
           </div>
 
@@ -2323,6 +2404,18 @@
                 tus documentos. El dinero llega a la cuenta bancaria que nos indiques.</div>
             </div>
 
+            <div class="faq-item reveal" style="transition-delay:.2s">
+              <button class="faq-btn" onclick="toggleFaq(this)">
+                ¿Cuánto tiempo tarda el reembolso?
+                <span class="ico"><svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg></span>
+              </button>
+              <div class="faq-ans">El Tax Return suele tardar unos 10–12 días hábiles una vez presentado. El
+                Superannuation puede tardar hasta 28 días una vez que el fondo procesa la solicitud definitiva.</div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -2332,18 +2425,25 @@
     <div id="cta-section" style="padding: 0 0 0;">
       <div class="cta-block">
         <div class="cta-glow"></div>
-        <span class="label">¿Listo?</span>
-        <h2>No dejes tu<br>dinero en <em>Australia</em></h2>
-        <p class="cta-sub">En 3 minutos lo tienes en marcha. Sin pago inicial.</p>
-        <a href="form.html" class="btn-main">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          Empieza tu tax return gratis
-        </a>
-        <p class="cta-trust">Tax agents registrados · Solo estudiantes · 100% digital</p>
+        <div class="cta-content-grid">
+          <div class="cta-text-side">
+            <span class="label">¿Listo?</span>
+            <h2 style="font-size: clamp(2rem, 5vw, 3.5rem);">No dejes tu<br>dinero en <em>Australia</em></h2>
+            <p class="cta-sub">En 3 minutos lo tienes en marcha. Sin pago inicial.</p>
+            <a href="form.html" class="btn-main">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Empieza tu tax return gratis
+            </a>
+            <p class="cta-trust">Tax agents registrados · Solo estudiantes · 100% digital</p>
+          </div>
+          <div class="cta-image-side reveal">
+            <img src="cta-success.png" alt="Estudiante satisfecha con StudyTaxBack">
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2352,18 +2452,18 @@
       <a href="#" class="foot-logo">StudyTaxBack.</a>
 
       <div class="foot-contact">
-        <a href="https://wa.me/61XXXXXXXXX" target="_blank">
+        <a href="https://wa.me/34614426935" target="_blank">
           <svg viewBox="0 0 24 24">
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
           </svg>
           WhatsApp
         </a>
-        <a href="mailto:hola@studytaxback.com">
+        <a href="mailto:alejandra.tutaxreturn@gmail.com">
           <svg viewBox="0 0 24 24">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
-          hola@studytaxback.com
+          alejandra.tutaxreturn@gmail.com
         </a>
 
       </div>
@@ -2400,11 +2500,11 @@
         entries.forEach(e => {
           if (e.isIntersecting) {
             e.target.classList.add('on');
-            // Unobserve after animating to save performance
-            obs.unobserve(e.target);
+          } else {
+            e.target.classList.remove('on');
           }
         });
-      }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+      }, { threshold: 0.1 });
 
       document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
@@ -2421,7 +2521,11 @@
           const start = vh * 0.95;
           const end = vh * 0.45;
           const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
-          fill.style.transform = `scaleX(${progress})`;
+          if (window.innerWidth <= 960) {
+            fill.style.transform = `scaleY(${progress})`;
+          } else {
+            fill.style.transform = `scaleX(${progress})`;
+          }
 
           const circles = grid.querySelectorAll('.step-dot-circle');
           circles.forEach((c, i) => {
