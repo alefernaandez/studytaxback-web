@@ -753,8 +753,7 @@
 
     .why-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      grid-template-rows: auto auto;
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
@@ -762,6 +761,10 @@
       border-radius: var(--radius);
       padding: 44px 40px;
       transition: transform 0.25s;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
 
     .w-card:hover {
@@ -769,6 +772,7 @@
     }
 
     .w-card.black-bg {
+      grid-column: span 2;
       background: var(--black);
       color: var(--white);
     }
@@ -1734,14 +1738,9 @@
                 <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
               </svg>
             </div>
-            <div class="w-big-num" style="font-size: 3.5rem;">–20%</div>
-            <h3>Más barato</h3>
-            <p>Desde 69€ todo incluído.</p>
-          </div>
-
-          <div class="w-card img-card reveal" style="padding: 0; overflow: hidden; background: none;">
-            <img src="process.png" alt="Proceso digital StudyTaxBack"
-              style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <div class="w-big-num" style="font-size: 3.8rem; margin-top: 20px;">–20%</div>
+            <h3>Más barato que la competencia</h3>
+            <p>Desde 69€ todo incluido, sin letra pequeña.</p>
           </div>
 
           <div class="w-card green-bg reveal" style="transition-delay:.1s">
@@ -1752,15 +1751,21 @@
               </svg>
             </div>
             <h3>Respuesta en 24h</h3>
-            <p>Respuesta garantizada en menos de 24h.</p>
+            <p>Garantizada.</p>
           </div>
 
-          <div class="w-card img-card reveal"
-            style="padding: 0; overflow: hidden; background: none; transition-delay:.2s">
-            <img src="whatsapp.png" alt="Soporte por WhatsApp StudyTaxBack"
-              style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          <!-- row 2 -->
+          <div class="w-card reveal" style="padding:0; overflow:hidden; background:none;">
+            <img src="tax_digital.png" alt="Procesos digitales"
+              style="width:100%; height:100%; object-fit:cover; display:block;">
           </div>
-          <div class="w-card light reveal" style="transition-delay:.3s">
+
+          <div class="w-card reveal" style="padding:0; overflow:hidden; background:none; transition-delay:.1s">
+            <img src="process.png" alt="Tax return Australia"
+              style="width:100%; height:100%; object-fit:cover; display:block;">
+          </div>
+
+          <div class="w-card light reveal" style="transition-delay:.2s">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
                 <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -1768,8 +1773,20 @@
               </svg>
             </div>
             <h3>100% digital</h3>
-            <p>Sin oficinas, sin papeles. Todo desde el móvil.</p>
+            <p>Desde el móvil, sin papeleos.</p>
           </div>
+
+          <!-- row 3 -->
+          <div class="w-card light reveal" style="transition-delay:.3s">
+            <div class="w-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+              </svg>
+            </div>
+            <h3>En español</h3>
+            <p>Por WhatsApp.</p>
+          </div>
+
           <div class="w-card green-bg reveal" style="transition-delay:.4s">
             <div class="w-icon">
               <svg viewBox="0 0 24 24">
@@ -1777,7 +1794,7 @@
               </svg>
             </div>
             <h3>Tax agents oficiales</h3>
-            <p>Registrados ante la ATO australiana.</p>
+            <p>Registrados ante la ATO.</p>
           </div>
 
         </div>
