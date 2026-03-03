@@ -108,15 +108,38 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      position: relative;
+      background: var(--white);
+      color: var(--black);
+      overflow: hidden;
+      min-height: 60vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
       padding: 140px 6% 80px;
+    }
+
+    .hero-content {
       position: relative;
-      overflow: hidden;
+      z-index: 2;
+    }
+
+    .hero-title {
+      grid-area: title;
+    }
+
+    .hero-text {
+      grid-area: text;
+      color: #777;
+      /* Soft grey/dark color like index.html */
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .hero-img-wrap {
+      grid-area: image;
     }
 
     .hero-gradient {
@@ -124,8 +147,7 @@
       inset: 0;
       z-index: 0;
       background:
-        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(156, 252, 116, 0.22) 0%, transparent 65%),
-        radial-gradient(ellipse 35% 35% at 85% 75%, rgba(156, 252, 116, 0.10) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(156, 252, 116, 0.1) 0%, transparent 65%);
     }
 
     .hero-noise {
@@ -1541,16 +1563,28 @@
       }
 
       .why-section {
-        display: none !important;
+        display: block !important;
       }
 
       .why-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr !important;
       }
 
       .w-card.big {
         grid-column: span 2;
         grid-row: span 1;
+      }
+
+      .hero-content {
+        grid-template-areas: 'title' 'image' 'text' !important;
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+        gap: 30px !important;
+      }
+
+      .hero-text {
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
 
       .pricing-section [style*="grid-template-columns:1fr 2fr"] {
@@ -1629,22 +1663,24 @@
     <div class="hero-gradient"></div>
     <div class="hero-noise"></div>
     <div class="hero-content"
-      style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; text-align: left;">
-      <div>
-        <h1 style="font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 24px;">
-          ¿Eres una empresa o agencia?<br>
-          <em style="color: var(--green);">Seamos partners</em>
-        </h1>
-        <p style="color: var(--black); font-size: 1.25rem; line-height: 1.6; max-width: 600px; margin-bottom: 40px;">
-          Buscamos colaborar con quienes hacen la vida de los estudiantes en Australia mucho más fácil.
-        </p>
-      </div>
-      <div class="reveal">
+      style="display: grid; grid-template-areas: 'title image' 'text image'; grid-template-columns: 1fr 1fr; gap: 40px 60px; align-items: center; max-width: 1200px; margin: 0 auto; text-align: left;">
+
+      <h1 class="hero-title" style="font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 24px;">
+        ¿Eres una empresa o agencia?<br>
+        <em style="color: var(--green);">Seamos partners</em>
+      </h1>
+
+      <div class="hero-img-wrap reveal">
         <div
           style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.05);">
           <img src="partners_hero.png" alt="Partners en Australia" style="width: 100%; height: auto; display: block;">
         </div>
       </div>
+
+      <p class="hero-text">
+        Buscamos colaborar con quienes hacen la vida de los estudiantes en Australia mucho más fácil.
+      </p>
+
     </div>
   </section>
 
