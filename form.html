@@ -400,7 +400,7 @@
     <div id="form" class="form-container">
         <!-- Header -->
         <div class="form-header">
-            <div class="step-counter">Paso <span id="currentStepNum">1</span> de 10</div>
+            <div class="step-counter">Paso <span id="currentStepNum">1</span> de 19</div>
             <div class="progress-wrap">
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBar"></div>
@@ -474,13 +474,83 @@
                             <label class="field-label">¿Vives con tu pareja?</label>
                             <div class="choice-group">
                                 <label class="choice-card" onclick="selectChoice(this)">
-                                    <input type="radio" name="lives_with_partner" value="yes">
+                                    <input type="radio" name="lives_with_partner" value="yes"
+                                        onchange="toggleSub(this, 'partner_details')">
                                     <div class="choice-circle"></div> Sí
                                 </label>
                                 <label class="choice-card" onclick="selectChoice(this)">
-                                    <input type="radio" name="lives_with_partner" value="no">
+                                    <input type="radio" name="lives_with_partner" value="no"
+                                        onchange="toggleSub(this, 'partner_details')">
                                     <div class="choice-circle"></div> No
                                 </label>
+                            </div>
+                        </div>
+
+                        <div id="partner_details" style="display:none; margin-top:24px;">
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">Nombre de tu pareja (Requerido)</label>
+                                    <input type="text" name="partner_first_name" class="input-text dynamic-required">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Apellido(s) de tu pareja (Requerido)</label>
+                                    <input type="text" name="partner_family_name" class="input-text dynamic-required">
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Otros nombres de tu pareja</label>
+                                <input type="text" name="partner_other_names" class="input-text">
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">Género de tu pareja</label>
+                                    <select name="partner_gender" class="input-text">
+                                        <option value="">Selecciona...</option>
+                                        <option value="male">Hombre</option>
+                                        <option value="female">Mujer</option>
+                                        <option value="prefer_not_to_say">Prefiero no decirlo</option>
+                                    </select>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Estado de residencia</label>
+                                    <select name="partner_residency" class="input-text">
+                                        <option value="">Selecciona...</option>
+                                        <option value="australian_resident">Residente Australiano</option>
+                                        <option value="permanent_resident">Residente Permanente</option>
+                                        <option value="temporary_resident">Residente Temporal (Estudiante, WHV, etc.)
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">TFN de tu pareja</label>
+                                    <input type="text" name="partner_tfn" class="input-text" placeholder="XXX XXX XXX">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Fecha de nacimiento de tu pareja</label>
+                                    <input type="date" name="partner_dob" class="input-text">
+                                </div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">¿Cuándo comenzó la relación?</label>
+                                    <input type="date" name="relationship_start_date" class="input-text">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Ingreso gravable de tu pareja (Taxable income)</label>
+                                    <input type="number" name="partner_taxable_income" class="input-text"
+                                        placeholder="$">
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">Número de hijos a cargo (Dependent children)</label>
+                                <input type="number" name="dependent_children" class="input-text" placeholder="0">
                             </div>
                         </div>
                     </div>
@@ -545,16 +615,15 @@
                         </div>
                     </div>
                     <div class="field-group">
-                        <label class="field-label">Otras condiciones</label>
-                        <div style="display:flex; flex-direction:column; gap:10px;">
-                            <label class="choice-card" style="justify-content:flex-start;">
-                                <input type="checkbox" name="is_citizen"> ¿Ciudadano / PR de Australia?
+                        <label class="field-label">¿Eres ciudadano australiano?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="is_aus_citizen" value="yes">
+                                <div class="choice-circle"></div> Sí
                             </label>
-                            <label class="choice-card" style="justify-content:flex-start;">
-                                <input type="checkbox" name="is_whv"> ¿Tienes Working Holiday Visa?
-                            </label>
-                            <label class="choice-card" style="justify-content:flex-start;">
-                                <input type="checkbox" name="applied_pr"> ¿Has solicitado la PR?
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="is_aus_citizen" value="no">
+                                <div class="choice-circle"></div> No
                             </label>
                         </div>
                     </div>
@@ -562,32 +631,111 @@
 
                 <!-- STEP 6: BANK -->
                 <div class="form-step" data-step="6">
-                    <h2 class="step-title">Datos Bancarios</h2>
-                    <p class="step-sub">Donde quieres recibir el dinero (si es cuenta AU).</p>
+                    <h2 class="step-title">Bank Account Details</h2>
+                    <p class="step-sub">Datos Bancarios para recibir tu dinero.</p>
+
                     <div class="field-group">
-                        <label class="field-label">¿Tienes cuenta AU activa para el refund?</label>
+                        <label class="field-label">¿Tienes una cuenta bancaria australiana activa para recibir el
+                            refund?</label>
                         <div class="choice-group">
                             <label class="choice-card" onclick="selectChoice(this)">
                                 <input type="radio" name="has_au_bank" value="yes"
-                                    onchange="toggleSub(this, 'bank_details')">
+                                    onchange="toggleSub(this, 'bank_details_au', 'yes'); toggleSub(this, 'no_au_bank_options', 'no');">
                                 <div class="choice-circle"></div> Sí
                             </label>
                             <label class="choice-card" onclick="selectChoice(this)">
                                 <input type="radio" name="has_au_bank" value="no"
-                                    onchange="toggleSub(this, 'bank_details')">
+                                    onchange="toggleSub(this, 'bank_details_au', 'yes'); toggleSub(this, 'no_au_bank_options', 'no');">
                                 <div class="choice-circle"></div> No
                             </label>
                         </div>
                     </div>
-                    <div id="bank_details" style="display:none;">
+
+                    <!-- Si tiene banco AU -->
+                    <div id="bank_details_au" style="display:none; margin-top:24px;">
                         <div class="grid-2">
                             <div class="field-group">
-                                <label class="field-label">BSB</label>
-                                <input type="text" name="bsb" class="input-text" placeholder="000-000">
+                                <label class="field-label">Nombre del banco</label>
+                                <input type="text" name="au_bank_name" class="input-text dynamic-required"
+                                    placeholder="Ej: CommBank">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Nombre de la cuenta (Account Name)</label>
+                                <input type="text" name="au_acc_name" class="input-text dynamic-required"
+                                    placeholder="Ej: Juan Perez">
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label class="field-label">BSB Number</label>
+                                <input type="text" name="au_bsb" class="input-text dynamic-required"
+                                    placeholder="000-000">
                             </div>
                             <div class="field-group">
                                 <label class="field-label">Account Number</label>
-                                <input type="text" name="acc_num" class="input-text" placeholder="12345678">
+                                <input type="text" name="au_acc_num" class="input-text dynamic-required"
+                                    placeholder="12345678">
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">Please provide the reason for authorising the transfer of your
+                                tax refund to a third-party account</label>
+                            <textarea name="au_tp_reason" class="input-text dynamic-required" style="height:80px;"
+                                placeholder="Escribe el motivo aquí..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Si NO tiene banco AU -->
+                    <div id="no_au_bank_options"
+                        style="display:none; margin-top:24px; padding:20px; border:1px solid var(--gray-light); border-radius:12px;">
+                        <div class="field-group">
+                            <label class="field-label">¿Autorizas la transferencia de tu devolución de impuestos a una
+                                cuenta bancaria de un tercero?</label>
+                            <div class="choice-group">
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="auth_third_party_bank" value="yes"
+                                        onchange="toggleSub(this, 'third_party_bank_details')">
+                                    <div class="choice-circle"></div> Sí
+                                </label>
+                                <label class="choice-card" onclick="selectChoice(this)">
+                                    <input type="radio" name="auth_third_party_bank" value="no"
+                                        onchange="toggleSub(this, 'third_party_bank_details')">
+                                    <div class="choice-circle"></div> No
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Detalles banco tercero (Sí autoriza) -->
+                        <div id="third_party_bank_details" style="display:none; margin-top:24px;">
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">Nombre del banco</label>
+                                    <input type="text" name="tp_bank_name" class="input-text dynamic-required"
+                                        placeholder="Ej: ANZ">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Nombre de la cuenta (Account Name)</label>
+                                    <input type="text" name="tp_acc_name" class="input-text dynamic-required"
+                                        placeholder="Ej: Maria Lopez">
+                                </div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="field-group">
+                                    <label class="field-label">BSB Number</label>
+                                    <input type="text" name="tp_bsb" class="input-text dynamic-required"
+                                        placeholder="000-000">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Account Number</label>
+                                    <input type="text" name="tp_acc_num" class="input-text dynamic-required"
+                                        placeholder="12345678">
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Please provide the reason for authorising the transfer of
+                                    your tax refund to a third-party account</label>
+                                <textarea name="tp_reason" class="input-text dynamic-required" style="height:80px;"
+                                    placeholder="Escribe el motivo aquí..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -595,85 +743,759 @@
 
                 <!-- STEP 7: INCOME -->
                 <div class="form-step" data-step="7">
-                    <h2 class="step-title">Tus Ingresos</h2>
-                    <p class="step-sub">Cuéntanos sobre tus trabajos este año.</p>
-                    <div class="field-group" style="padding:20px; background:var(--off-white); border-radius:12px;">
-                        <h4 style="margin-bottom:15px;">Trabajo como Empleado (TFN)</h4>
-                        <div class="field-group">
-                            <label class="field-label">Puesto actual / profesión</label>
-                            <input type="text" name="job_title" class="input-text"
-                                placeholder="Ej: Hospitality / Cleaning">
-                        </div>
-                        <div class="field-group">
-                            <label class="field-label">Empleador (Nombre / ABN / Gross Payment aprox)</label>
-                            <textarea name="tfn_employers" class="input-text" style="height:80px;"
-                                placeholder="Ej: Cafe XYZ - ABN... - $5,000"></textarea>
-                        </div>
+                    <h2 class="step-title">Resumen de Pagos PAYG</h2>
+                    <p class="step-sub">Sección exclusiva para ingresos con Tax File Number (TFN).</p>
+
+                    <div style="font-size: 0.95rem; color: var(--gray); margin-bottom: 24px;">
+                        <p style="margin-bottom: 10px;">Completa esta sección si has generado ingresos por salario o
+                            sueldo utilizando tu Tax File Number (TFN).</p>
+                        <p style="margin-bottom: 10px;">Los ingresos incluyen: salarios y sueldos, comisiones, bonos,
+                            ingresos por trabajo a tiempo parcial o esporádico, pago por licencia parental, pago por
+                            paternidad y pareja (DAPP), y pagos por pérdida de salario bajo una póliza de accidente,
+                            seguro o un esquema de compensación de trabajadores.</p>
+                        <p style="font-style: italic; color: var(--black);">*Rellena esto solo si tienes la información
+                            disponible. Si no, déjalo en blanco.</p>
                     </div>
-                    <div class="field-group"
-                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-top:20px;">
-                        <h4 style="margin-bottom:15px;">Trabajo por cuenta propia (ABN)</h4>
-                        <div class="field-group">
-                            <label class="field-label">¿Has tenido ingresos con ABN?</label>
-                            <div class="choice-group">
-                                <label class="choice-card" onclick="selectChoice(this)">
-                                    <input type="radio" name="has_abn_income" value="yes"
-                                        onchange="toggleSub(this, 'abn_details')">
-                                    <div class="choice-circle"></div> Sí
-                                </label>
-                                <label class="choice-card" onclick="selectChoice(this)">
-                                    <input type="radio" name="has_abn_income" value="no"
-                                        onchange="toggleSub(this, 'abn_details')">
-                                    <div class="choice-circle"></div> No
-                                </label>
+
+                    <div id="payers-container">
+                        <div class="field-group payer-block"
+                            style="padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;">
+                            <h4 style="margin-bottom:15px;">Información del Pagador</h4>
+                            <div class="field-group">
+                                <label class="field-label">Puesto de trabajo actual / Ocupación</label>
+                                <input type="text" name="job_title[]" class="input-text"
+                                    placeholder="Ej: Hospitality / Cleaning">
                             </div>
-                        </div>
-                        <div id="abn_details" style="display:none;">
+                            <div class="field-group">
+                                <label class="field-label">Nombre del empleador / Pagador</label>
+                                <input type="text" name="employer_name[]" class="input-text" placeholder="Ej: Cafe XYZ">
+                            </div>
                             <div class="grid-2">
                                 <div class="field-group">
-                                    <label class="field-label">Gross Income ABN</label>
-                                    <input type="number" name="abn_gross" class="input-text" placeholder="$">
+                                    <label class="field-label">ABN / WPN del pagador</label>
+                                    <input type="text" name="payer_abn[]" class="input-text" placeholder="Si lo sabes">
                                 </div>
                                 <div class="field-group">
-                                    <label class="field-label">Gastos principales</label>
-                                    <input type="text" name="abn_expenses" class="input-text"
-                                        placeholder="Ej: Gasolina, herramientas">
+                                    <label class="field-label">Pago Bruto (Gross Payment)</label>
+                                    <input type="number" name="gross_payment[]" class="input-text" placeholder="$">
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <button type="button" class="form-btn" onclick="addPayer()"
+                        style="width:100%; justify-content:center; border: 1.5px dashed var(--black); background: transparent; color: var(--black); margin-bottom: 30px;">
+                        + Añadir otro pagador
+                    </button>
+
                 </div>
 
                 <!-- STEP 8: DEDUCTIONS -->
                 <div class="form-step" data-step="8">
-                    <h2 class="step-title">Deducciones y Archivos</h2>
-                    <p class="step-sub">Sube tus documentos para maximizar tu devolución.</p>
-                    <div class="field-group">
-                        <label class="field-label">Deducciones rápidas (gastos de trabajo)</label>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                            <input type="number" name="ded_cars" class="input-text" placeholder="Vehículo $">
-                            <input type="number" name="ded_clothes" class="input-text" placeholder="Ropa/Unif $">
-                            <input type="number" name="ded_ed" class="input-text" placeholder="Educación $">
-                            <input type="number" name="ded_other" class="input-text" placeholder="Otros (móvil/net) $">
+                    <h2 class="step-title" style="font-size:1.8rem;">Deducciones (Solo Ingresos TFN)</h2>
+
+                    <div style="font-size: 0.95rem; color: var(--gray); margin-bottom: 24px;">
+                        <p style="margin-bottom: 10px;"><b>Nota:</b> La ATO (Oficina de Impuestos Australiana) permite
+                            deducir algunos gastos relacionados con el trabajo de tus ingresos TFN, siempre que puedas
+                            guardar evidencias/recibos de lo que reclamas.</p>
+                        <p style="margin-bottom: 10px;">Introduce a continuación los importes de tus gastos de trabajo.
+                            Hemos incluido una lista sugerida.</p>
+                        <p style="font-style: italic; color: var(--black);">*Completa solo si tienes la información
+                            disponible. Si no aplica a ti, déjalo en blanco.</p>
+                    </div>
+
+                    <!-- GASTOS VEHÍCULO -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Gastos de Vehículo</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Coche, moto,
+                            bicicleta, etc. (Solo si lo usas para tu trabajo).</p>
+
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (tipo, marca, modelo, lectura odómetro, % uso
+                                trabajo)</label>
+                            <textarea name="ded_vehicle_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de tu vehículo..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="ded_vehicle_amount" class="input-text" placeholder="Ej: 500">
                         </div>
                     </div>
-                    <div class="field-group" style="margin-top:30px;">
-                        <label class="field-label">Upload Archivos (Pasaporte, Visa, Payslips...)</label>
+
+                    <!-- VIAJES -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Gastos de Viaje / Desplazamiento</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Gasolina, tickets
+                            de transporte, taxi, billetes de avión, alojamiento, etc.</p>
+
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="ded_travel_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de tus viajes..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="ded_travel_amount" class="input-text" placeholder="Ej: 200">
+                        </div>
+                    </div>
+
+                    <!-- ROPA -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Ropa / Uniforme</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Ropa de
+                            protección, uniformes con logo, lavandería, tintorería, etc.</p>
+
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="ded_clothing_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de ropa/Uniforme..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="ded_clothing_amount" class="input-text" placeholder="Ej: 150">
+                        </div>
+                    </div>
+
+                    <!-- AUTOEDUCACIÓN -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Cursos y Educación</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: RSA, RCG, WWC,
+                            registros de enfermería, cuotas sindicales, diplomas o cursos.</p>
+
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (instituto, nombre del curso, tasas
+                                pagadas)</label>
+                            <textarea name="ded_education_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de educación..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="ded_education_amount" class="input-text" placeholder="Ej: 300">
+                        </div>
+                    </div>
+
+                    <!-- OTROS -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Otros Gastos</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Uso del móvil,
+                            internet, ordenador, herramientas, donaciones, comisiones de tu Tax Return del año pasado,
+                            etc.</p>
+
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="ded_other_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de otros gastos..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="ded_other_amount" class="input-text" placeholder="Ej: 100">
+                        </div>
+                    </div>
+
+                    <!-- ALGO MAS -->
+                    <div class="field-group" style="margin-bottom:30px;">
+                        <label class="field-label">¿Hay algo más que te gustaría añadir?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_extra_deductions" value="yes"
+                                    onchange="toggleSub(this, 'extra_deductions_block')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_extra_deductions" value="no"
+                                    onchange="toggleSub(this, 'extra_deductions_block')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                        <div id="extra_deductions_block" style="display:none; margin-top:20px;">
+                            <textarea name="extra_deductions_text" class="input-text dynamic-required"
+                                style="height:80px;" placeholder="Cuéntanos más..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" style="font-size:1.1rem; margin-bottom:8px;">Subir Evidencias /
+                            Archivos</label>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Si ya tienes un archivo
+                            (Word, Excel) con la lista de tus deducciones o recibos, siéntete libre de adjuntarlo aquí o
+                            envíalo luego por email.</p>
+
                         <div class="upload-box" onclick="document.getElementById('fileUpload').click()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
                             </svg>
                             <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
-                            <input type="file" id="fileUpload" multiple style="display:none;">
+                            <input type="file" id="fileUpload" multiple style="display:none;"
+                                onchange="updateFileList(this, 'fileList')">
                         </div>
                         <div id="fileList" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
                     </div>
                 </div>
 
-                <!-- STEP 9: PAYMENT -->
+                <!-- STEP 9: ABN INCOME -->
                 <div class="form-step" data-step="9">
-                    <h2 class="step-title">Método de Pago</h2>
-                    <p class="step-sub">Elige cómo quieres pagar el servicio.</p>
+                    <h2 class="step-title" style="font-size:1.8rem;">Ingresos o Pérdidas (ABN)</h2>
+                    <p class="step-sub">Sección exclusiva para ingresos con Australian Business Number (ABN).</p>
+
+                    <div style="font-size: 0.95rem; color: var(--gray); margin-bottom: 24px;">
+                        <p style="margin-bottom: 10px; font-style: italic;">*Si lo prefieres, podemos enviarte una
+                            plantilla en Excel para tus deducciones de ABN. Háznoslo saber por email.</p>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">¿Has recibido algún ingreso con tu ABN como Sole Trader?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_abn_trader_income" value="yes"
+                                    onchange="toggleSub(this, 'abn_trader_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_abn_trader_income" value="no"
+                                    onchange="toggleSub(this, 'abn_trader_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="abn_trader_details"
+                        style="display:none; margin-top:24px; padding:20px; border:1px solid var(--gray-light); border-radius:12px;">
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label class="field-label">Ingreso Bruto ABN (Gross Income)</label>
+                                <input type="number" name="abn_trader_gross" class="input-text dynamic-required"
+                                    placeholder="$">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Gastos principales (Expenses)</label>
+                                <input type="text" name="abn_trader_expenses" class="input-text dynamic-required"
+                                    placeholder="Ej: Materiales, herramientas...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 10: ABN DEDUCTIONS -->
+                <div class="form-step" data-step="10">
+                    <h2 class="step-title" style="font-size:1.8rem;">Deducciones (Solo ABN)</h2>
+
+                    <div style="font-size: 0.95rem; color: var(--gray); margin-bottom: 24px;">
+                        <p style="margin-bottom: 10px;"><b>Nota:</b> La ATO permite deducir algunos gastos relacionados
+                            con el trabajo de tus ingresos como ABN, siempre que puedas proporcionar evidencias/recibos
+                            de lo reclamado.</p>
+                        <p style="margin-bottom: 10px;">Introduce a continuación los importes de tus gastos. Hemos
+                            incluido una lista sugerida.</p>
+                        <p style="font-style: italic; color: var(--black);">*Completa solo si tienes la información
+                            disponible. Si no aplica a ti, déjalo en blanco.</p>
+                    </div>
+
+                    <!-- COSTO DE VENTAS -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Costo de Ventas (Cost of Sales)</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplo: Materiales usados
+                            en tu actividad como ABN.</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción de lo que reclamas</label>
+                            <textarea name="abn_ded_sales_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de costo de ventas..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_sales_amount" class="input-text" placeholder="Ej: 800">
+                        </div>
+                    </div>
+
+                    <!-- ALQUILER DE OFICINA -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Alquiler / Arrendamiento de Oficina</h4>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción de lo que reclamas</label>
+                            <textarea name="abn_ded_office_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de tu oficina/local..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_office_amount" class="input-text" placeholder="Ej: 1500">
+                        </div>
+                    </div>
+
+                    <!-- VEHÍCULO -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Gastos de Vehículo</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Coche, moto,
+                            bicicleta, etc. (Solo si lo usas para tu trabajo).</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (tipo, marca, modelo, % uso trabajo)</label>
+                            <textarea name="abn_ded_vehicle_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de tu vehículo..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_vehicle_amount" class="input-text" placeholder="Ej: 500">
+                        </div>
+                    </div>
+
+                    <!-- VIAJES -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Gastos de Viaje / Desplazamiento</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Gasolina, tickets
+                            transporte, taxi, alojamiento, etc.</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="abn_ded_travel_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de tus viajes..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_travel_amount" class="input-text" placeholder="Ej: 200">
+                        </div>
+                    </div>
+
+                    <!-- ROPA -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Ropa / Uniforme</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Ropa de
+                            protección, uniformes con logo, etc.</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="abn_ded_clothing_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de ropa..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_clothing_amount" class="input-text"
+                                placeholder="Ej: 150">
+                        </div>
+                    </div>
+
+                    <!-- AUTOEDUCACIÓN -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Cursos y Educación</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: RSA, RCG, WWC,
+                            diplomas o cursos.</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (instituto, tasas pagadas)</label>
+                            <textarea name="abn_ded_education_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de educación..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_education_amount" class="input-text"
+                                placeholder="Ej: 300">
+                        </div>
+                    </div>
+
+                    <!-- OTROS -->
+                    <div class="field-group"
+                        style="padding:20px; border:1px solid var(--gray-light); border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px;">Otros Gastos</h4>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Ejemplos: Móvil, internet,
+                            herramientas, donaciones, etc.</p>
+                        <div class="field-group">
+                            <label class="field-label">Breve descripción (qué estás reclamando)</label>
+                            <textarea name="abn_ded_other_desc" class="input-text" style="height:60px;"
+                                placeholder="Detalles de otros gastos..."></textarea>
+                        </div>
+                        <div class="field-group" style="margin-bottom:0;">
+                            <label class="field-label">Importe Total ($)</label>
+                            <input type="number" name="abn_ded_other_amount" class="input-text" placeholder="Ej: 100">
+                        </div>
+                    </div>
+
+                    <!-- ALGO MAS -->
+                    <div class="field-group" style="margin-bottom:30px;">
+                        <label class="field-label">¿Hay algo más que te gustaría añadir?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="abn_has_extra_deductions" value="yes"
+                                    onchange="toggleSub(this, 'abn_extra_deductions_block')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="abn_has_extra_deductions" value="no"
+                                    onchange="toggleSub(this, 'abn_extra_deductions_block')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                        <div id="abn_extra_deductions_block" style="display:none; margin-top:20px;">
+                            <textarea name="abn_extra_deductions_text" class="input-text dynamic-required"
+                                style="height:80px;" placeholder="Cuéntanos más..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- SUBIR EVIDENCIAS ABN -->
+                    <div class="field-group">
+                        <label class="field-label" style="font-size:1.1rem; margin-bottom:8px;">Subir Evidencias /
+                            Archivos (ABN)</label>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Si ya tienes un archivo con
+                            la lista de tus deducciones de ABN, súbelo aquí.</p>
+
+                        <div class="upload-box" onclick="document.getElementById('fileUploadAbn').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
+                            <input type="file" id="fileUploadAbn" multiple style="display:none;"
+                                onchange="updateFileList(this, 'fileListAbn')">
+                        </div>
+                        <div id="fileListAbn" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
+                    </div>
+                </div>
+
+                <!-- STEP 11: INVESTMENT PROPERTY INCOME -->
+                <div class="form-step" data-step="11">
+                    <h2 class="step-title" style="font-size:1.8rem;">Ingresos de Propiedad de Inversión</h2>
+                    <p class="step-sub">Declara si posees algún ingreso por alquileres.</p>
+
+                    <div class="field-group">
+                        <label class="field-label">¿Tienes algún ingreso por alquiler de una propiedad de
+                            inversión?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_investment_property" value="yes"
+                                    onchange="toggleSub(this, 'investment_property_msg')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_investment_property" value="no"
+                                    onchange="toggleSub(this, 'investment_property_msg')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="investment_property_msg"
+                        style="display:none; margin-top:24px; padding:20px; background-color:#fff3cd; border:1px solid #ffeeba; border-radius:12px; color:#856404; font-weight:bold; text-align:center;">
+                        El preparador de impuestos se pondrá en contacto contigo pronto.
+                    </div>
+                </div>
+
+                <!-- STEP 12: DIRECTOR FEES INCOME -->
+                <div class="form-step" data-step="12">
+                    <h2 class="step-title" style="font-size:1.8rem;">Ingresos como Director (Director Fees)</h2>
+                    <p class="step-sub">Declara si posees algún ingreso no gubernamental como director de una empresa.
+                    </p>
+
+                    <div class="field-group">
+                        <label class="field-label">¿Tienes algún ingreso no gubernamental como director de una empresa
+                            (Director Fees)?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_director_fees" value="yes"
+                                    onchange="toggleSub(this, 'director_fees_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_director_fees" value="no"
+                                    onchange="toggleSub(this, 'director_fees_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="director_fees_details" style="display:none; margin-top:24px;">
+                        <h4 style="margin-bottom:15px;">Ingresos</h4>
+                        <div id="director-income-container">
+                            <div class="field-group payer-block"
+                                style="padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;">
+                                <div class="field-group">
+                                    <label class="field-label">Nombre del pagador (Payer's Name)</label>
+                                    <input type="text" name="director_payer_name[]" class="input-text dynamic-required"
+                                        placeholder="Ej: Tech Corp Pty Ltd">
+                                </div>
+                                <div class="grid-2">
+                                    <div class="field-group">
+                                        <label class="field-label">ABN</label>
+                                        <input type="text" name="director_payer_abn[]"
+                                            class="input-text dynamic-required" placeholder="Si lo sabes">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                                        <input type="number" name="director_gross_payment[]"
+                                            class="input-text dynamic-required" placeholder="$">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="form-btn" onclick="addDirectorIncome()"
+                            style="width:100%; justify-content:center; border: 1.5px dashed var(--black); background: transparent; color: var(--black); margin-bottom: 30px;">
+                            + Añadir Ingreso
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 13: GOVERNMENT ALLOWANCES -->
+                <div class="form-step" data-step="13">
+                    <h2 class="step-title" style="font-size:1.8rem;">Ayudas y Pagos del Gobierno de Australia</h2>
+                    <p class="step-sub">Declara si has recibido algún tipo de subsidio gubernamental.</p>
+
+                    <div class="field-group">
+                        <label class="field-label" style="line-height:1.4;">¿Has recibido algún ingreso del gobierno
+                            como Parental Leave Pay, Newstart, Youth Allowance, Jobseeker o Austudy payments?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_gov_income" value="yes"
+                                    onchange="toggleSub(this, 'gov_income_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_gov_income" value="no"
+                                    onchange="toggleSub(this, 'gov_income_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="gov_income_details" style="display:none; margin-top:24px;">
+                        <h4 style="margin-bottom:15px;">Ingresos (Income)</h4>
+                        <div id="gov-income-container">
+                            <div class="field-group payer-block"
+                                style="padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;">
+                                <div class="field-group">
+                                    <label class="field-label">Nombre del pagador (Payer's Name)</label>
+                                    <input type="text" name="gov_payer_name[]" class="input-text dynamic-required"
+                                        placeholder="Ej: Centrelink">
+                                </div>
+                                <div class="grid-2">
+                                    <div class="field-group">
+                                        <label class="field-label">ABN</label>
+                                        <input type="text" name="gov_payer_abn[]" class="input-text dynamic-required"
+                                            placeholder="Si lo sabes">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                                        <input type="number" name="gov_gross_payment[]"
+                                            class="input-text dynamic-required" placeholder="$">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="form-btn" onclick="addGovIncome()"
+                            style="width:100%; justify-content:center; border: 1.5px dashed var(--black); background: transparent; color: var(--black); margin-bottom: 30px;">
+                            + Añadir Ingreso
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 14: PENSIONS OR ALLOWANCES -->
+                <div class="form-step" data-step="14">
+                    <h2 class="step-title" style="font-size:1.8rem;">Pensiones o Ayudas del Gobierno (Pensions or
+                        Allowances)</h2>
+                    <p class="step-sub">Declara si has recibido pensiones o ayudas del gobierno.</p>
+
+                    <div class="field-group">
+                        <label class="field-label" style="line-height:1.4;">¿Has recibido alguna pensión o ayuda de
+                            Centrelink o del Department of Veterans' Affairs?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_pension" value="yes"
+                                    onchange="toggleSub(this, 'pension_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_pension" value="no"
+                                    onchange="toggleSub(this, 'pension_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="pension_details" style="display:none; margin-top:24px;">
+                        <h4 style="margin-bottom:15px;">Detalles de Pensión / Ayuda</h4>
+                        <div id="pension-container">
+                            <div class="field-group payer-block"
+                                style="padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;">
+                                <div class="grid-2">
+                                    <div class="field-group">
+                                        <label class="field-label">Pensión o Ayuda (ej. Age Pension)</label>
+                                        <input type="text" name="pension_type[]" class="input-text dynamic-required"
+                                            placeholder="Tipo de pensión">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                                        <input type="number" name="pension_gross[]" class="input-text dynamic-required"
+                                            placeholder="$">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="form-btn" onclick="addPension()"
+                            style="width:100%; justify-content:center; border: 1.5px dashed var(--black); background: transparent; color: var(--black); margin-bottom: 30px;">
+                            + Añadir Pensión o Ayuda
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 15: GROSS INTEREST EARNED -->
+                <div class="form-step" data-step="15">
+                    <h2 class="step-title" style="font-size:1.8rem;">Intereses Brutos Ganados (Gross Interest Earned)
+                    </h2>
+                    <p class="step-sub">Declara si has generado intereses bancarios en Australia.</p>
+
+                    <div class="field-group">
+                        <label class="field-label" style="line-height:1.4;">¿Has recibido o se te han acreditado
+                            intereses de alguna fuente dentro de Australia?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_interest" value="yes"
+                                    onchange="toggleSub(this, 'interest_details')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_interest" value="no"
+                                    onchange="toggleSub(this, 'interest_details')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="interest_details" style="display:none; margin-top:24px;">
+                        <h4 style="margin-bottom:15px;">Detalles de Institución Financiera</h4>
+                        <div id="interest-container">
+                            <div class="field-group payer-block"
+                                style="padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;">
+                                <div class="grid-2">
+                                    <div class="field-group">
+                                        <label class="field-label">Institución Financiera</label>
+                                        <input type="text" name="institution_name[]" class="input-text dynamic-required"
+                                            placeholder="Ej: CommBank">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Número de Cuenta</label>
+                                        <input type="text" name="institution_account[]"
+                                            class="input-text dynamic-required" placeholder="Account Number">
+                                    </div>
+                                </div>
+                                <div class="grid-2">
+                                    <div class="field-group">
+                                        <label class="field-label">Número de titulares de la cuenta</label>
+                                        <input type="number" name="institution_holders[]"
+                                            class="input-text dynamic-required" placeholder="Ej: 1">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Total de intereses brutos</label>
+                                        <input type="number" name="institution_gross_interest[]"
+                                            class="input-text dynamic-required" placeholder="$">
+                                    </div>
+                                </div>
+                                <div class="field-group" style="margin-bottom:0;">
+                                    <label class="field-label">Total de importes retenidos por TFN</label>
+                                    <input type="number" name="institution_tfn_withheld[]"
+                                        class="input-text dynamic-required" placeholder="$">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="form-btn" onclick="addFinancialInstitution()"
+                            style="width:100%; justify-content:center; border: 1.5px dashed var(--black); background: transparent; color: var(--black); margin-bottom: 30px;">
+                            + Añadir Institución Financiera
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 16: PARTNERSHIPS AND TRUSTS -->
+                <div class="form-step" data-step="16">
+                    <h2 class="step-title" style="font-size:1.8rem;">Partnerships and Trusts Income</h2>
+                    <p class="step-sub">Declara si posees ingresos de sociedades o fideicomisos.</p>
+
+                    <div class="field-group">
+                        <label class="field-label">¿Has recibido algún ingreso de una sociedad (partnership) o
+                            fideicomiso (trust)?</label>
+                        <div class="choice-group">
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_partnership_income" value="yes"
+                                    onchange="toggleSub(this, 'partnership_msg')">
+                                <div class="choice-circle"></div> Sí
+                            </label>
+                            <label class="choice-card" onclick="selectChoice(this)">
+                                <input type="radio" name="has_partnership_income" value="no"
+                                    onchange="toggleSub(this, 'partnership_msg')">
+                                <div class="choice-circle"></div> No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="partnership_msg"
+                        style="display:none; margin-top:24px; padding:20px; background-color:#fff3cd; border:1px solid #ffeeba; border-radius:12px; color:#856404; font-weight:bold; text-align:center;">
+                        El preparador de impuestos se pondrá en contacto contigo pronto.
+                    </div>
+                </div>
+
+                <!-- STEP 17: ATTACHMENTS -->
+                <div class="form-step" data-step="17">
+                    <h2 class="step-title" style="font-size:1.8rem;">Documentos Adjuntos (Attachments)</h2>
+                    <p class="step-sub">Sube los documentos necesarios para completar tu declaración.</p>
+
+                    <h4 style="margin-top:20px; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">
+                        Para Residentes Temporales / Estudiantes:</h4>
+
+                    <div class="field-group">
+                        <label class="field-label" style="font-size:1.05rem;">Por favor, adjunta una copia de tu
+                            pasaporte</label>
+                        <div class="upload-box" onclick="document.getElementById('fileUploadPassport').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
+                            <input type="file" id="fileUploadPassport" multiple style="display:none;"
+                                onchange="updateFileList(this, 'fileListPassport')">
+                        </div>
+                        <div id="fileListPassport" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" style="font-size:1.05rem;">Por favor, adjunta copia de tu visa que
+                            cubra todo el año financiero.</label>
+                        <div class="upload-box" onclick="document.getElementById('fileUploadVisa').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
+                            <input type="file" id="fileUploadVisa" multiple style="display:none;"
+                                onchange="updateFileList(this, 'fileListVisa')">
+                        </div>
+                        <div id="fileListVisa" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
+                    </div>
+
+                    <h4 style="margin-top:30px; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">
+                        Para Todos:</h4>
+
+                    <div class="field-group" style="margin-bottom:0;">
+                        <label class="field-label" style="font-size:1.05rem;">Adjunta tu Payment Summary o Final Pay
+                            Slip.</label>
+                        <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px; font-style:italic;">
+                            *Completa solo si tienes la información disponible. Si no, déjalo en blanco.</p>
+                        <div class="upload-box" onclick="document.getElementById('fileUploadPayslip').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <p><b>Haz click para subir tus PDF o fotos</b><br>O arrástralos aquí</p>
+                            <input type="file" id="fileUploadPayslip" multiple style="display:none;"
+                                onchange="updateFileList(this, 'fileListPayslip')">
+                        </div>
+                        <div id="fileListPayslip" style="margin-top:10px; font-size:0.85rem; color:var(--gray);"></div>
+                    </div>
+                </div>
+
+                <!-- STEP 18: PAYMENT -->
+                <div class="form-step" data-step="18">
+                    <h2 class="step-title" style="font-size:1.6rem;">Pago de nuestros Honorarios (Payment of our
+                        Professional Fees)</h2>
+                    <p class="step-sub">Selecciona tu opción de pago preferida.</p>
                     <div class="field-group">
                         <div style="display:flex; flex-direction:column; gap:16px;">
                             <label class="choice-card" style="padding:24px; min-height:80px;"
@@ -681,8 +1503,8 @@
                                 <input type="radio" name="payment_method" value="upfront" checked>
                                 <div class="choice-circle"></div>
                                 <div>
-                                    <div style="font-weight:700;">Pago por adelantado (Upfront)</div>
-                                    <div style="font-size:0.85rem; opacity:0.6;">Stripe / PayPal / Transferencia</div>
+                                    <div style="font-weight:700;">Me gustaría pagar por adelantado</div>
+                                    <div style="font-size:0.85rem; opacity:0.6;">(I would like to pay upfront)</div>
                                 </div>
                             </label>
                             <label class="choice-card" style="padding:24px; min-height:80px;"
@@ -690,52 +1512,152 @@
                                 <input type="radio" name="payment_method" value="refund">
                                 <div class="choice-circle"></div>
                                 <div>
-                                    <div style="font-weight:700;">Deducir del refund (+ $12 Fee)</div>
-                                    <div style="font-size:0.85rem; opacity:0.6;">No pagas nada hoy. Se descuenta al
-                                        recibir tu dinero.</div>
+                                    <div style="font-weight:700;">Deducir del reembolso ($15 extra)</div>
+                                    <div style="font-size:0.85rem; opacity:0.6;">(I would like my fee to be deducted
+                                        from my refund)</div>
                                 </div>
                             </label>
                         </div>
                     </div>
+
+                    <div class="field-group" style="margin-top:20px;">
+                        <label class="field-label" style="line-height:1.4;">¿Vienes referido por alguna Agencia de
+                            Estudiantes o Institución Educativa? Si es así, ¿cuál es su nombre? <br><span
+                                style="font-size:0.85rem; font-weight:normal; color:var(--gray);">(Are you referred by a
+                                Student Agency or an Education Institution? If yes, what is their name?)</span></label>
+                        <input type="text" name="referred_by" class="input-text"
+                            placeholder="Ej: Go Study Australia, ILSC, etc." style="margin-top: 10px;">
+                    </div>
+
                     <div class="calc-preview">
                         <div
                             style="font-weight:700; margin-bottom:15px; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">
                             Resumen de precio</div>
                         <div class="calc-row"><span>Gestión Tax Return</span> <span id="calc_base">$69</span></div>
                         <div class="calc-row" id="calc_extra_row" style="display:none;"><span>Fee por pago
-                                diferido</span> <span>$12</span></div>
+                                diferido</span> <span>$15</span></div>
                         <div class="calc-total">Total estimado: <span id="calc_total">$69 AUD</span></div>
                     </div>
                 </div>
 
-                <!-- STEP 10: AUTHORIZATION -->
-                <div class="form-step" data-step="10">
-                    <h2 class="step-title">Autorización Final</h2>
-                    <p class="step-sub">Firma digital para que podamos actuar en tu nombre.</p>
-                    <div class="field-group"
-                        style="padding:30px; border:1px solid var(--gray-light); border-radius:16px;">
-                        <div class="auth-list">
-                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Autorizo a StudyTaxBack a preparar mi tax return.</div>
-                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Autorizo a gestionar mi super refund.</div>
-                            <div class="auth-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Autorizo el acceso a mi portal de ATO.</div>
+                <!-- STEP 19: AUTHORIZATION -->
+                <div class="form-step" data-step="19">
+                    <h2 class="step-title" style="font-size:1.8rem; text-transform:uppercase;">Tax Agent Authority</h2>
+                    <p class="step-sub" style="font-weight:bold; letter-spacing:0.05em; text-transform:uppercase;">
+                        Authority & Tax Agent Appointment</p>
+
+                    <div
+                        style="font-size:0.85rem; color:var(--black); line-height:1.6; background:var(--off-white); padding:20px; border-radius:12px; margin-bottom:20px; border:1px solid #ddd; height: 350px; overflow-y:scroll;">
+                        <p style="margin-bottom:10px;">I hereby authorise and appoint the accounting and tax agent firm
+                            of:</p>
+                        <p style="font-weight:bold; margin-bottom:10px;">Anywhere Tax Pty Ltd (ABN 16 163 858 820) t/as
+                            “Student tax Buddy” (RAN 25450758),</p>
+                        <p style="margin-bottom:15px;">located at ‘St Kilda towers, Level 1, 1 Queens Road, Melbourne
+                            3004’</p>
+                        <p style="margin-bottom:10px;">to act on my behalf in the capacity of accountants and registered
+                            tax agents to:</p>
+                        <ul style="margin-bottom:20px; padding-left:20px;">
+                            <li style="margin-bottom:8px;">Prepare and lodge my personal income tax return based on the
+                                information I provide, for the year selected in the submitted tax return application
+                                form, and in accordance with the tax agent terms and conditions.</li>
+                            <li style="margin-bottom:8px;">Prepare and guide me with my superannuation claim based on
+                                the information I provide, and in accordance with the tax agent terms and conditions.
+                            </li>
+                            <li style="margin-bottom:8px;">Link my Tax File Number (TFN) to their registered tax agent
+                                portal with the Australian Taxation Office (ATO), in order to review any outstanding tax
+                                returns, assess potential tax debts that may affect my refund, confirm the accuracy of
+                                my contact details, and ensure the correct preparation of my tax affairs.</li>
+                            <li style="margin-bottom:8px;">Access my superannuation account details through the ATO
+                                portal, if required, to assist me with preparing and guiding for a Departing Australia
+                                Superannuation Payment (DASP) claim to be succesful.</li>
+                        </ul>
+
+                        <h4 style="margin-bottom:10px; font-weight:bold;">Electronic Lodgement Declaration / Payment
+                            Option</h4>
+                        <p style="margin-bottom:10px;">The preferred payment option selected by me in the “PAYMENT”
+                            section of the tax return application form (under “Select your preferred payment option”)
+                            will determine how the tax agent fees are to be paid. I confirm I have selected one of the
+                            following:</p>
+                        <ul style="margin-bottom:15px; padding-left:20px;">
+                            <li style="margin-bottom:5px;">I would like to pay upfront, or</li>
+                            <li style="margin-bottom:5px;">I would like my fee to be deducted from my refund (additional
+                                $15 fee applies).</li>
+                        </ul>
+                        <p style="margin-bottom:20px;">This authorisation reflects my selection made in the application
+                            form.</p>
+
+                        <h4 style="margin-bottom:10px; font-weight:bold;">UPFRONT FEE</h4>
+                        <p style="margin-bottom:20px;">I authorise 'Anywhere Tax Pty Ltd (ABN 16 163 858 820) t/as
+                            “Student tax Buddy” (RAN 25450758)' to lodge my tax return through the electronic lodgement
+                            service (ELS) and to have any resulting refund deposited directly into my nominated bank
+                            account.</p>
+
+                        <h4 style="margin-bottom:10px; font-weight:bold;">FEE FROM REFUND</h4>
+                        <p style="margin-bottom:10px;">I authorise Anywhere Tax Pty Ltd (ABN 16 163 858 820) t/as
+                            “Student tax Buddy” (RAN 5450758) to:</p>
+                        <ul style="margin-bottom:20px; padding-left:20px;">
+                            <li style="margin-bottom:5px;">Lodge my tax return through the ATO ELS;</li>
+                            <li style="margin-bottom:5px;">Receive my refund into their trust account (BSB 083004 / Acct
+                                417406137);</li>
+                            <li style="margin-bottom:5px;">Deduct the agreed fee for the preparation and lodgement of my
+                                income tax return (including the $15 refund-handling surcharge); and</li>
+                            <li style="margin-bottom:5px;">Transfer the balance of the refund to my nominated bank
+                                account.</li>
+                        </ul>
+
+                        <h4 style="margin-bottom:10px; font-weight:bold;">DECLARATION</h4>
+                        <p style="margin-bottom:10px;">By signing below (including by electronic signature), I solemnly
+                            declare and acknowledge that:</p>
+                        <ol style="margin-bottom:20px; padding-left:20px;">
+                            <li style="margin-bottom:5px;"><b>Accuracy of information</b> – All information supplied by
+                                me is true, correct, and complete to the best of my knowledge, and all supporting
+                                documents provided are genuine.</li>
+                            <li style="margin-bottom:5px;"><b>Authorisations</b> – I have read, understood, and
+                                expressly authorise every action and authority described above, including the linking of
+                                my TFN to the tax agent portal and access to my superannuation details for my DASP
+                                guidance purposes.</li>
+                            <li style="margin-bottom:5px;"><b>Reliance</b> – I understand that Anywhere Tax Pty Ltd t/as
+                                Student Tax Buddy will rely on this declaration and the information I provide when
+                                preparing and lodging my tax return and/or superannuation claim.</li>
+                            <li style="margin-bottom:5px;"><b>Revocation</b> – This authority remains in force until I
+                                revoke it in writing.</li>
+                        </ol>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Name (in print)</label>
+                        <input type="text" name="signature_name_print" class="input-text"
+                            placeholder="Escribe tu nombre completo aquí" required>
+                    </div>
+
+                    <div class="field-group signature-wrap" style="position:relative; margin-bottom: 0;">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 5px;">
+                            <label class="field-label" style="margin-bottom: 0;">Signature (electronic or
+                                written)</label>
+                            <div style="font-size:0.85rem;">
+                                <a href="#" onclick="toggleSignature('type'); return false;" id="tab_type"
+                                    style="color:var(--black); font-weight:bold; margin-right:15px; text-decoration:none;">Type</a>
+                                <a href="#" onclick="toggleSignature('draw'); return false;" id="tab_draw"
+                                    style="color:var(--gray); text-decoration:none;">Draw</a>
+                            </div>
                         </div>
-                        <div class="field-group" style="margin-top:30px;">
-                            <label class="field-label">Nombre completo como firma</label>
-                            <input type="text" name="signature" class="input-text"
-                                placeholder="Escribe tu nombre completo" required>
+
+                        <div id="sig_type_container">
+                            <input type="text" name="signature_text" id="signature_input" class="input-text"
+                                placeholder="Type your name as a signature"
+                                style="font-family: 'Times New Roman', Times, serif; font-size:1.5rem; font-style:italic;"
+                                required>
+                        </div>
+                        <div id="sig_draw_container" style="display:none; position:relative;">
+                            <canvas id="signature_pad"
+                                style="width:100%; height:150px; background:#fff; border:1px solid var(--gray-light); border-radius:8px; touch-action:none;"></canvas>
+                            <input type="hidden" name="signature_image_data" id="signature_image_data">
+                            <a href="#" onclick="clearSignature(); return false;"
+                                style="position:absolute; top:10px; right:15px; font-size:0.85rem; color:#ff4d4d; text-decoration:none;">✕
+                                Clear</a>
                         </div>
                     </div>
-                    <p style="font-size:0.8rem; color:var(--gray); margin-top:20px; text-align:center;">Declaro que toda
-                        la información proporcionada es verdadera.</p>
                 </div>
             </form>
         </div>
@@ -760,7 +1682,7 @@
 
     <script>
         let currentStep = 1;
-        const totalSteps = 10;
+        const totalSteps = 19;
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
@@ -796,38 +1718,197 @@
         }
 
         function selectChoice(el) {
-            const name = el.querySelector('input').name;
+            const input = el.querySelector('input');
+            const name = input.name;
             const group = document.querySelectorAll(`input[name="${name}"]`);
-            group.forEach(input => input.closest('.choice-card').classList.remove('selected'));
+            group.forEach(inp => inp.closest('.choice-card').classList.remove('selected'));
             el.classList.add('selected');
-            el.querySelector('input').checked = true;
+
+            const wasChecked = input.checked;
+            input.checked = true;
+
+            if (!wasChecked) {
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
             if (name === 'payment_method') {
-                const isRefund = el.querySelector('input').value === 'refund';
+                const isRefund = input.value === 'refund';
                 document.getElementById('calc_extra_row').style.display = isRefund ? 'flex' : 'none';
-                document.getElementById('calc_total').innerText = isRefund ? '$81 AUD' : '$69 AUD';
+                document.getElementById('calc_total').innerText = isRefund ? '$84 AUD' : '$69 AUD';
             }
         }
 
-        function toggleSub(el, subId) {
+        function toggleSub(el, subId, expectedValue = 'yes') {
             const sub = document.getElementById(subId);
-            if (el.value === 'yes') {
+            if (!sub) return;
+            if (el.value === expectedValue) {
                 sub.style.display = 'block';
-                sub.querySelectorAll('input').forEach(i => i.required = true);
+                sub.querySelectorAll('.dynamic-required').forEach(i => i.required = true);
             } else {
                 sub.style.display = 'none';
-                sub.querySelectorAll('input').forEach(i => { i.required = false; i.value = ''; });
+                sub.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]), select, textarea').forEach(i => {
+                    i.value = '';
+                    i.classList.remove('error');
+                });
+                sub.querySelectorAll('.dynamic-required').forEach(i => i.required = false);
             }
         }
 
-        document.getElementById('fileUpload')?.addEventListener('change', function (e) {
-            const list = document.getElementById('fileList');
-            const files = Array.from(e.target.files);
+        function updateFileList(inputEl, listId) {
+            const list = document.getElementById(listId);
+            const files = Array.from(inputEl.files);
             list.innerHTML = files.map(f => `<div>• ${f.name}</div>`).join('');
-        });
+        }
+
+        function addDirectorIncome() {
+            const container = document.getElementById('director-income-container');
+            const block = document.createElement('div');
+            block.className = 'field-group payer-block';
+            block.style.cssText = 'padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;';
+            block.innerHTML = `
+                <button type="button" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X Eliminar</button>
+                <div class="field-group">
+                    <label class="field-label">Nombre del pagador (Payer's Name)</label>
+                    <input type="text" name="director_payer_name[]" class="input-text dynamic-required" placeholder="Ej: Tech Corp Pty Ltd">
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">ABN</label>
+                        <input type="text" name="director_payer_abn[]" class="input-text dynamic-required" placeholder="Si lo sabes">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                        <input type="number" name="director_gross_payment[]" class="input-text dynamic-required" placeholder="$">
+                    </div>
+                </div>
+            `;
+            container.appendChild(block);
+        }
+
+        function addGovIncome() {
+            const container = document.getElementById('gov-income-container');
+            const block = document.createElement('div');
+            block.className = 'field-group payer-block';
+            block.style.cssText = 'padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;';
+            block.innerHTML = `
+                <button type="button" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X Eliminar</button>
+                <div class="field-group">
+                    <label class="field-label">Nombre del pagador (Payer's Name)</label>
+                    <input type="text" name="gov_payer_name[]" class="input-text dynamic-required" placeholder="Ej: Centrelink">
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">ABN</label>
+                        <input type="text" name="gov_payer_abn[]" class="input-text dynamic-required" placeholder="Si lo sabes">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                        <input type="number" name="gov_gross_payment[]" class="input-text dynamic-required" placeholder="$">
+                    </div>
+                </div>
+            `;
+            container.appendChild(block);
+        }
+
+        function addPension() {
+            const container = document.getElementById('pension-container');
+            const block = document.createElement('div');
+            block.className = 'field-group payer-block';
+            block.style.cssText = 'padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;';
+            block.innerHTML = `
+                <button type="button" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X Eliminar</button>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">Pensión o Ayuda (ej. Age Pension)</label>
+                        <input type="text" name="pension_type[]" class="input-text dynamic-required" placeholder="Tipo de pensión">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                        <input type="number" name="pension_gross[]" class="input-text dynamic-required" placeholder="$">
+                    </div>
+                </div>
+            `;
+            container.appendChild(block);
+        }
+
+        function addFinancialInstitution() {
+            const container = document.getElementById('interest-container');
+            const block = document.createElement('div');
+            block.className = 'field-group payer-block';
+            block.style.cssText = 'padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;';
+            block.innerHTML = `
+                <button type="button" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X Eliminar</button>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">Institución Financiera</label>
+                        <input type="text" name="institution_name[]" class="input-text dynamic-required" placeholder="Ej: CommBank">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Número de Cuenta</label>
+                        <input type="text" name="institution_account[]" class="input-text dynamic-required" placeholder="Account Number">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">Número de titulares</label>
+                        <input type="number" name="institution_holders[]" class="input-text dynamic-required" placeholder="Ej: 1">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Total intereses brutos</label>
+                        <input type="number" name="institution_gross_interest[]" class="input-text dynamic-required" placeholder="$">
+                    </div>
+                </div>
+                <div class="field-group" style="margin-bottom:0;">
+                    <label class="field-label">Total retenido por TFN</label>
+                    <input type="number" name="institution_tfn_withheld[]" class="input-text dynamic-required" placeholder="$">
+                </div>
+            `;
+            container.appendChild(block);
+        }
+
+        function addPayer() {
+            const container = document.getElementById('payers-container');
+            const block = document.createElement('div');
+            block.className = 'field-group payer-block';
+            block.style.cssText = 'padding:20px; background:var(--off-white); border-radius:12px; margin-bottom: 20px; position:relative;';
+            block.innerHTML = `
+                <button type="button" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X Eliminar</button>
+                <h4 style="margin-bottom:15px;">Información del Pagador</h4>
+                <div class="field-group">
+                    <label class="field-label">Puesto de trabajo actual / Ocupación</label>
+                    <input type="text" name="job_title[]" class="input-text" placeholder="Ej: Hospitality / Cleaning">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Nombre del empleador / Pagador</label>
+                    <input type="text" name="employer_name[]" class="input-text" placeholder="Ej: Cafe XYZ">
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label class="field-label">ABN / WPN del pagador</label>
+                        <input type="text" name="payer_abn[]" class="input-text" placeholder="Si lo sabes">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Pago Bruto (Gross Payment)</label>
+                        <input type="number" name="gross_payment[]" class="input-text" placeholder="$">
+                    </div>
+                </div>
+            `;
+            container.appendChild(block);
+        }
 
         async function handleSubmit() {
             const form = document.getElementById('form');
             const taxForm = document.getElementById('taxForm');
+
+            const canvasDataInput = document.getElementById('signature_image_data');
+            const canvas = document.getElementById('signature_pad');
+            if (canvasInited && canvas && document.getElementById('sig_draw_container').style.display !== 'none') {
+                canvasDataInput.value = canvas.toDataURL('image/png');
+                document.getElementById('signature_input').disabled = true;
+            } else {
+                canvasDataInput.disabled = true;
+            }
+
             const formData = new FormData(taxForm);
 
             // Change UI to loading state
@@ -869,6 +1950,76 @@
                     </div>
                 `;
             }
+        }
+
+        let canvasInited = false;
+        let canvas, ctx, isDrawing = false;
+
+        function toggleSignature(mode) {
+            document.getElementById('tab_type').style.color = mode === 'type' ? 'var(--black)' : 'var(--gray)';
+            document.getElementById('tab_type').style.fontWeight = mode === 'type' ? 'bold' : 'normal';
+            document.getElementById('tab_draw').style.color = mode === 'draw' ? 'var(--black)' : 'var(--gray)';
+            document.getElementById('tab_draw').style.fontWeight = mode === 'draw' ? 'bold' : 'normal';
+
+            if (mode === 'type') {
+                document.getElementById('sig_type_container').style.display = 'block';
+                document.getElementById('sig_draw_container').style.display = 'none';
+                document.getElementById('signature_input').required = true;
+            } else {
+                document.getElementById('sig_type_container').style.display = 'none';
+                document.getElementById('sig_draw_container').style.display = 'block';
+                document.getElementById('signature_input').required = false;
+                initCanvas();
+            }
+        }
+
+        function initCanvas() {
+            if (canvasInited) return;
+            canvas = document.getElementById('signature_pad');
+            ctx = canvas.getContext('2d');
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+
+            canvas.addEventListener('mousedown', startPos);
+            canvas.addEventListener('mouseup', endPos);
+            canvas.addEventListener('mousemove', draw);
+
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPos(e.touches[0]); });
+            canvas.addEventListener('touchend', endPos);
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
+
+            canvasInited = true;
+        }
+
+        function startPos(e) {
+            isDrawing = true;
+            draw(e);
+        }
+
+        function endPos() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            ctx.lineTo(clientX - rect.left, clientY - rect.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(clientX - rect.left, clientY - rect.top);
+        }
+
+        function clearSignature() {
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
         updateProgress();
