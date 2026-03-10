@@ -5,10 +5,10 @@
 
 | Oficina | Link Personalizado | UTM Tracking |
 |---------|------------------|--------------|
-| **Madrid** | `studytaxback.com/api/gostudy-madrid` | `utm_source=gostudy-madrid` |
-| **Barcelona** | `studytaxback.com/api/gostudy-barcelona` | `utm_source=gostudy-barcelona` |
-| **México** | `studytaxback.com/api/gostudy-mexico` | `utm_source=gostudy-mexico` |
-| **Chile** | `studytaxback.com/api/gostudy-chile` | `utm_source=gostudy-chile` |
+| **Madrid** | `studytaxback.com/api/gostudy/madrid` | `utm_source=gostudy-madrid` |
+| **Barcelona** | `studytaxback.com/api/gostudy/barcelona` | `utm_source=gostudy-barcelona` |
+| **México** | `studytaxback.com/api/gostudy/mexico` | `utm_source=gostudy-mexico` |
+| **Chile** | `studytaxback.com/api/gostudy/chile` | `utm_source=gostudy-chile` |
 
 ## 📱 Mensajes WhatsApp Listos
 
@@ -17,7 +17,7 @@
 ¡Hola GoStudy Madrid! 🎉
 
 Ale de StudyTaxBack. Vuestro link EXCLUSIVO: 
-studytaxback.com/api/gostudy-madrid
+studytaxback.com/api/gostudy/madrid
 
 Seguimos clics + reportes mensuales. 
 ¿Lo probamos con vuestros próximos estudiantes? 😊
@@ -28,7 +28,7 @@ Seguimos clics + reportes mensuales.
 ¡Hola GoStudy Barcelona! 🎉
 
 Ale de StudyTaxBack. Vuestro link EXCLUSIVO: 
-studytaxback.com/api/gostudy-barcelona
+studytaxback.com/api/gostudy/barcelona
 
 Seguimos clics + reportes mensuales. 
 ¿Lo probamos? 😊
@@ -49,10 +49,10 @@ TOTAL GoStudy      → 93 visitas → 68 pagos = 3400€
 
 ## 🚀 Rutas API Implementadas
 ```
-api/gostudy-madrid.js    → redirect('/?utm_source=gostudy-madrid&utm_medium=partner')
-api/gostudy-barcelona.js → redirect('/?utm_source=gostudy-barcelona&utm_medium=partner')  
-api/gostudy-mexico.js    → redirect('/?utm_source=gostudy-mexico&utm_medium=partner')
-api/gostudy-chile.js     → redirect('/?utm_source=gostudy-chile&utm_medium=partner')
+api/gostudy/madrid.js    → redirect('/?utm_source=gostudy-madrid&utm_medium=partner')
+api/gostudy/barcelona.js → redirect('/?utm_source=gostudy-barcelona&utm_medium=partner')  
+api/gostudy/mexico.js    → redirect('/?utm_source=gostudy-mexico&utm_medium=partner')
+api/gostudy/chile.js     → redirect('/?utm_source=gostudy-chile&utm_medium=partner')
 ```
 
 ## 📊 Métricas por Oficina (Próximos 30 días)
